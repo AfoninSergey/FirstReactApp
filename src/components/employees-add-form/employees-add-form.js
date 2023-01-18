@@ -1,4 +1,5 @@
 import { Component } from "react";
+
 import "./employees-add-form.css";
 
 class EmployeesAddForm extends Component {
@@ -7,26 +8,45 @@ class EmployeesAddForm extends Component {
     this.state = {
       name: "",
       salary: "",
+      text: "Добавьте нового сотрудника",
     };
   }
 
-  onChanceValue = (e) => {
+  onChangeValue = (e) => {
     this.setState({ [e.target.name]: e.target.value });
   };
 
+  onEmpAddbyForm = (e) => {
+    e.preventDefault();
+    if (!this.state.name && !this.state.salary) {
+      this.setState({ text: "Введите данные!" });
+    } else if (!this.state.name) {
+      this.setState({ text: "Имя тоже введите!" });
+    } else if (!this.state.salary) {
+      this.setState({ text: "Заполните зарплату!" });
+    } else {
+      this.props.onAdd(this.state.name, this.state.salary)
+      this.setState({
+        name: "",
+        salary: "",
+        text: "Добавьте нового сотрудника",
+      });      
+    }
+  };
+
   render() {
-    const { name, salary } = this.state;
+    const { name, salary, text } = this.state;
     return (
       <div className="app-add-form">
-        <h3>Добавьте нового сотрудника</h3>
-        <form className="add-form d-flex">
+        <h3>{text}</h3>
+        <form className="add-form d-flex" onSubmit={this.onEmpAddbyForm}>
           <input
             type="text"
             className="form-control new-post-label"
             placeholder="Как его зовут?"
             name="name"
             value={name}
-            onChange={this.onChanceValue}
+            onChange={this.onChangeValue}
           />
           <input
             type="number"
@@ -34,7 +54,7 @@ class EmployeesAddForm extends Component {
             placeholder="З/П в $?"
             name="salary"
             value={salary}
-            onChange={this.onChanceValue}
+            onChange={this.onChangeValue}
           />
           <button type="submit" className="btn btn-outline-light">
             Добавить
