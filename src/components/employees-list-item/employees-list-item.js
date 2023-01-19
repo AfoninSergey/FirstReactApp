@@ -7,6 +7,7 @@ const EmployeesListItem = ({
   increase,
   rise,
   onTog,
+  changeSalary
 }) => {
   return (
     <li
@@ -26,7 +27,8 @@ const EmployeesListItem = ({
       <input
         type="text"
         className="list-group-item-input"
-        defaultValue={`$${salary}`}
+        value={`$${salary}`}
+        onInput={changeSalary}
       />
       <div className="d-flex justify-content-center align-items-center">
         <button

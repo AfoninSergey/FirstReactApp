@@ -13,11 +13,20 @@ class EmployeesAddForm extends Component {
   }
 
   onChangeValue = (e) => {
-    this.setState({ [e.target.name]: e.target.value });
+    if (e.target.value.trim().length > 0) {
+      this.setState({
+        [e.target.name]: e.target.value,
+      });
+    } else {
+      this.setState({
+        [e.target.name]: ""
+      });
+    }
   };
 
   onEmpAddbyForm = (e) => {
     e.preventDefault();
+
     if (!this.state.name && !this.state.salary) {
       this.setState({ text: "Введите данные!" });
     } else if (!this.state.name) {
@@ -25,12 +34,12 @@ class EmployeesAddForm extends Component {
     } else if (!this.state.salary) {
       this.setState({ text: "Заполните зарплату!" });
     } else {
-      this.props.onAdd(this.state.name, this.state.salary)
+      this.props.onAdd(this.state.name, this.state.salary);
       this.setState({
         name: "",
         salary: "",
         text: "Добавьте нового сотрудника",
-      });      
+      });
     }
   };
 
